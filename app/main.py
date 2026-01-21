@@ -1,6 +1,10 @@
 from fastapi import FastAPI, HTTPException, Body
-from services.call_logs import create_call_log
+from services.call_logs import (
+    create_call_log,
+    get_call_log_by_id,
+    list_call_logs,
 
+)
 app = FastAPI(title="Firestore Call Logs API")
 
 
@@ -55,7 +59,7 @@ async def store_call_log(
             }
         }
     ),
-    database: str = "lumiverse-solutions"   # 🔥 dynamic DB via query param
+    database: str = "lumiverse-solution"   # 🔥 dynamic DB via query param
 ):
     try:
         call_log = create_call_log(payload, database)
@@ -75,3 +79,38 @@ async def store_call_log(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+
+# ---------------- GET BY ID ----------------
+@app.get("/call-logs/{call_log_id}")
+async def get_call_log(
+    call_log_id: str,
+    database: str = "lumiverse-solution"
+):
+    call_log = get_call_log_by_id(call_log_id, database)
+
+    if not call_log:
+        raise HTTPException(status_code=404, detail="Call log not found")
+
+    return {
+        "success": True,
+        "database": database,
+        "data": call_log
+    }
+
+
+# ---------------- LIST ----------------
+@app.get("/call-logs")
+async def list_logs(
+    database: str = "lumiverse-solution",
+    limit: int = 20
+):
+    logs = list_call_logs(database, limit)
+
+    return {
+        "success": True,
+        "database": database,
+        "count": len(logs),
+        "data": logs
+    }

@@ -36,3 +36,37 @@ def create_call_log(payload: dict, database: str) -> CallLog:
     call_logs_ref.document(call_log.id).set(call_log.to_dict())
 
     return call_log
+
+
+# ---------------- GET BY ID ----------------
+def get_call_log_by_id(call_log_id: str, database: str) -> dict:
+    db = get_db(database)
+    doc_ref = db.collection("call_logs").document(call_log_id)
+    doc = doc_ref.get()
+
+    if not doc.exists:
+        return None
+
+    return {
+        "id": call_log_id,
+        **doc.to_dict()
+    }
+
+
+# ---------------- LIST ----------------
+def list_call_logs(database: str, limit: int = 20) -> list:
+    db = get_db(database)
+    query = (
+        db.collection("call_logs")
+        .order_by("created_at", direction="DESCENDING")
+        .limit(limit)
+    )
+
+    results = []
+    for doc in query.stream():
+        results.append({
+            "id": doc.id,
+            **doc.to_dict()
+        })
+
+    return results
