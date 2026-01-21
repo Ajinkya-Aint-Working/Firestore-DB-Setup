@@ -5,11 +5,12 @@ from firestore import get_db
 from models import CallLog, CallAnalysis
 from services.utils import build_call_analysis
 
-db = get_db()
-call_logs_ref = db.collection("call_logs")
 
+def create_call_log(payload: dict, database: str) -> CallLog:
+    # 🔥 dynamic database
+    db = get_db(database)
+    call_logs_ref = db.collection("call_logs")
 
-def create_call_log(payload: dict) -> CallLog:
     call_log_id = str(uuid4())
 
     analysis_data = build_call_analysis(payload["call_analysis"])
@@ -31,5 +32,7 @@ def create_call_log(payload: dict) -> CallLog:
         created_at=datetime.utcnow(),
     )
 
+    # Document ID is reference, not stored inside document
     call_logs_ref.document(call_log.id).set(call_log.to_dict())
+
     return call_log

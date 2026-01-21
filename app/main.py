@@ -41,27 +41,29 @@ async def store_call_log(
                     "win_probability": 50,
                     "pain_points_identified": ["Price"],
                     "objections_raised": ["Pricing concerns"],
-                    "recommended_strategy": "Provide competitive pricing and highlight value proposition."
+                    "recommended_strategy": "Provide competitive pricing"
                 },
                 "call_outcome": {
                     "result": "Send Info",
                     "relationship_status": "Door Open"
                 }
             },
-            "call_summary": "Marshal inquired about pricing and requested more information.",
+            "call_summary": "Marshal inquired about pricing.",
             "schedule_meeting": {
                 "action_required": True,
                 "suggested_time_slots": ["2026-01-20T10:00:00"]
             }
         }
-    )
+    ),
+    database: str = "lumiverse-solutions"   # 🔥 dynamic DB via query param
 ):
     try:
-        call_log = create_call_log(payload)
+        call_log = create_call_log(payload, database)
 
         return {
             "success": True,
             "call_log_id": call_log.id,
+            "database": database,
             "message": "Call log stored successfully",
         }
 
