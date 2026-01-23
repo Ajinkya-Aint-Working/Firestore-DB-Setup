@@ -19,6 +19,7 @@ def create_call_log(payload: dict, database: str) -> CallLog:
         status=analysis_data["status"],
         engagement_metrics=analysis_data["engagement_metrics"],
         sales_intelligence=analysis_data["sales_intelligence"],
+        next_steps=analysis_data["next_steps"],
         call_outcome=analysis_data["call_outcome"],
     )
 

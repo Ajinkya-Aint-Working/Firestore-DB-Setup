@@ -47,17 +47,30 @@ async def store_call_log(
                     "objections_raised": ["Pricing concerns"],
                     "recommended_strategy": "Provide competitive pricing"
                 },
+                "next_steps": [
+                    {
+                        "action": "Attempt to identify the contact person and their role.",
+                        "priority": "Low",
+                        "deadline": "1 week"
+                    },
+                    {
+                        "action": "Send pricing brochure over email",
+                        "priority": "Medium",
+                        "deadline": "2026-01-21"
+                    }
+                ],
                 "call_outcome": {
                     "result": "Send Info",
                     "relationship_status": "Door Open"
                 }
             },
-            "call_summary": "Marshal inquired about pricing.",
+            "call_summary": "Marshal inquired about pricing and asked for more information.",
             "schedule_meeting": {
                 "action_required": True,
                 "suggested_time_slots": ["2026-01-20T10:00:00"]
             }
         }
+
     ),
     database: str = "lumiverse-solution"   # 🔥 dynamic DB via query param
 ):

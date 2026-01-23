@@ -9,6 +9,7 @@ class CallAnalysis:
     status: Dict[str, Any]
     engagement_metrics: Dict[str, Any]
     sales_intelligence: Dict[str, Any]
+    next_steps: Dict[str, Any]
     call_outcome: Dict[str, Any]
 
     def to_dict(self):
@@ -16,6 +17,7 @@ class CallAnalysis:
             "status": self.status,
             "engagement_metrics": self.engagement_metrics,
             "sales_intelligence": self.sales_intelligence,
+            "next_steps": self.next_steps,
             "call_outcome": self.call_outcome,
         }
 

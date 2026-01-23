@@ -2,6 +2,7 @@ REQUIRED_CALL_ANALYSIS_KEYS = {
     "status",
     "engagement_metrics",
     "sales_intelligence",
+    "next_steps",
     "call_outcome",
 }
 
